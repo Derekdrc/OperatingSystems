@@ -307,6 +307,16 @@ public:
 
 	//Function for user to deposit coins
 	void depositCoins(int deno) {
+		if (deno == 25) {
+			numQuarters++;
+		}
+		else if (deno == 10) {
+			numDimes++;
+		}
+		else if (deno == 5) {
+			numNickels++;
+		}
+
 		amountDeposited += (double(deno)/100);
 		cout << deno << " cents deposited" << endl;
 		cout << "You have a total of " << amountDeposited << " deposited. " << endl;
@@ -314,6 +324,12 @@ public:
 
 	//Function for user to deposit bills
 	void depositBills(int deno) {
+		if (deno == 5) {
+			numFives++;
+		}
+		else if (deno == 1) {
+			numOnes++;
+		}
 		amountDeposited += deno;
 		cout << "$" << deno << " deposited" << endl;
 		cout << "You have a total of " << amountDeposited << " deposited. " << endl;
@@ -321,6 +337,168 @@ public:
 
 	//Function for user to order cola
 	void orderCola(string brand) {
+		double priceOfCola = 0.75;
+		
+		if (amountDeposited < priceOfCola) {
+			cout << "Not enough deposited. Please deposit more money to order a cola." << endl;
+		}
+		else if (cups <= 0) {
+			cout << "Vending Machine out of cups. Please see front desk for refills. Money will be given back" << endl;
+			calcChange();
+		}
+		else if (brand == "coke") {
+			if (cansCoke >= 1) {
+				cout << "Coke dispensed. " << endl;
+				cansCoke--;
+				cups--;
+				calcChange();
+			}
+			else {
+				cout << "Vending Machine out of Coke. Please try again with a different brand." << endl;
+			}
+		}
+		else if (brand == "pepsi") {
+			if (cansPepsi >= 1) {
+				cout << "Pepsi dispensed. " << endl;
+				cansPepsi--;
+				cups--;
+				calcChange();
+			}
+			else {
+				cout << "Vending Machine out of Pepsi. Please try again with a different brand." << endl;
+			}
+		}
+		else if (brand == "rc") {
+			if (cansRC >= 1) {
+				cout << "RC dispensed. " << endl;
+				cansRC--;
+				cups--;
+				calcChange();
+			}
+			else {
+				cout << "Vending Machine out of RC. Please try again with a different brand." << endl;
+			}
+		}
+		else if (brand == "jolt") {
+			if (cansJolt >= 1) {
+				cout << "Jolt dispensed. " << endl;
+				cansJolt--;
+				cups--;
+				calcChange();
+			}
+			else {
+				cout << "Vending Machine out of Jolt. Please try again with a different brand." << endl;
+			}
+		}
+		else if (brand == "faygo") {
+			if (cansFaygo >= 1) {
+				cout << "Faygo dispensed. " << endl;
+				cansFaygo--;
+				cups--;
+				calcChange();
+			}
+			else {
+				cout << "Vending Machine out of Faygo. Please try again with a different brand." << endl;
+			}
+		}
+	}
+
+	//Function to handle calculating change
+	void calcChange() {
+		double priceOfCola = 0.75;
+
+		double refundTotal = amountDeposited - priceOfCola;
+		
+		double fivesWorth = 5;
+		double onesWorth = 1;
+		double quarterWorth = 0.25;
+		double dimeWorth = 0.10;
+		double nickelWorth = 0.05;
+
+		if (refundTotal == 0) {
+			cout << "No change needed. " << endl;
+			amountDeposited = 0;
+		}
+		else {
+			cout << "Your change: $" << refundTotal<< endl;
+			
+			//Calculate fives
+			int refundFives = refundTotal / fivesWorth;
+			if (numFives < refundFives) {
+				//Arent enough fives in the VM to cover the amount needed
+				cout << "Fives: " << numFives << endl;
+				numFives = 0;
+				refundTotal -= numFives;
+			}
+			else {
+				//there are enough fives to cover the necessary amount
+				cout << "Fives: " << refundFives << endl;
+				numFives -= refundFives;
+				refundTotal -= refundFives;
+			}
+
+			//Calculate ones
+			int refundOnes = refundTotal / onesWorth;
+			if (numOnes < refundOnes) {
+				cout << "Ones: " << numOnes << endl;
+				numOnes = 0;
+				refundTotal -= numOnes;
+			}
+			else {
+				cout << "Ones: " << refundOnes << endl;
+				numOnes -= refundOnes;
+				refundTotal -= refundOnes;
+			}
+
+			//Calculate quarters
+			int refundQuarters = refundTotal / quarterWorth;
+			if (numQuarters < refundQuarters) {
+				cout << "Quarters: " << numQuarters << endl;
+				refundTotal -= (numQuarters * quarterWorth);
+				numQuarters = 0;
+			}
+			else {
+				cout << "Quarters: " << refundQuarters << endl;
+				numQuarters -= refundQuarters;
+				refundTotal -= (refundQuarters * quarterWorth);
+			}
+
+			//Calculate Dimes
+			int refundDimes = refundTotal / dimeWorth;
+			if (numDimes < refundDimes) {
+				cout << "Dimes: " << numDimes << endl;
+				refundTotal -= (numDimes * dimeWorth);
+				numDimes = 0;
+			}
+			else {
+				cout << "Dimes: " << refundDimes << endl;
+				numDimes -= refundDimes;
+				refundTotal -= (refundDimes * dimeWorth);
+			}
+
+			//Calculate Nickels
+			int refundNickels = refundTotal / nickelWorth;
+			if (numNickels < refundNickels) {
+				cout << "Nickels: " << numNickels << endl;
+				refundTotal -= (numNickels * nickelWorth);
+				numNickels = 0;
+			}
+			else {
+				cout << "Nickels: " << refundNickels << endl;
+				numDimes -= refundNickels;
+				refundTotal -= (refundNickels * nickelWorth);
+			}
+
+			//Make sure that full change amount was processed, otherwise send to front desk
+			if (refundTotal == 0) {
+				amountDeposited = 0;
+				cout << "Thank you for the transaction. Have a nice day" << endl;
+			}
+			else {
+				cout << "Vending Machine out of change. Please see front desk for your remaining $" << refundTotal << ". Thank you!" << endl;
+				amountDeposited = 0;
+			}
+		}
 
 	}
 
