@@ -1,9 +1,10 @@
-//Header file that contains Vending Machine Class
+//Header file that contains Vending Machine Class and related functions
 
 #include <iostream>
 #include <string>
 using namespace std;
 
+//Vendim machine class
 class VendingMachine {
 private:
 	//Service Mode and pass to switch
@@ -53,29 +54,6 @@ public:
 		cansJolt = 0;
 		cansFaygo = 0;
 		cups = 0;
-	}
-
-	//Constructor with args for file io
-	VendingMachine(double amtDepo, int nick, int dim, int quart, int on, int fiv, int coke, int pepsi, int rc, int jolt, int faygo, int cup) {
-		serviceMode = true;
-		password = "modeSwitch";
-		
-		//Money
-		amountDeposited = amtDepo;
-		numNickels = nick;
-		numDimes = dim;
-		numQuarters = quart;
-		numOnes = on;
-		numFives = fiv;
-
-		//Sodas
-		cansCoke = coke;
-		cansPepsi = pepsi;
-		cansRC = rc;
-		cansJolt = jolt;
-		cansFaygo = faygo;
-		cups = cup;
-
 	}
 
 	//Getters
@@ -499,7 +477,5 @@ public:
 				amountDeposited = 0;
 			}
 		}
-
 	}
-
 };

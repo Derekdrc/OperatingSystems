@@ -359,12 +359,15 @@ void shutdownMachine(VendingMachine& VM) {
 
 //Main function
 int main() {
+	//Initialuize vending machine object
 	VendingMachine VM;
 
+	//Call function to populate inventory from last session
 	initializeMachine(VM);
 	cout << "Please enter a command and it's parameter" << endl
 		<< "(Type Help for a list of commands, EXIT to quit" << endl;
-
+	
+	//Run until user wishes to exit
 	bool open = true; 
 	while (open) {
 		if (VM.getMode() == true) {
@@ -386,6 +389,7 @@ int main() {
 		
 	}
 
+	//Save inventory to file so inventory persists through runs
 	shutdownMachine(VM);
 
 	return 0;
