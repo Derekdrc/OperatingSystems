@@ -383,15 +383,15 @@ public:
 
 	//Function to handle calculating change
 	void calcChange() {
-		double priceOfCola = 0.75;
+		float priceOfCola = 0.75;
 
-		double refundTotal = amountDeposited - priceOfCola;
+		float refundTotal = amountDeposited - priceOfCola;
 		
-		double fivesWorth = 5;
-		double onesWorth = 1;
-		double quarterWorth = 0.25;
-		double dimeWorth = 0.10;
-		double nickelWorth = 0.05;
+		float fivesWorth = 5;
+		float onesWorth = 1;
+		float quarterWorth = 0.25;
+		float dimeWorth = 0.10;
+		float nickelWorth = 0.05;
 
 		if (refundTotal == 0) {
 			cout << "No change needed. " << endl;
@@ -428,6 +428,7 @@ public:
 				refundTotal -= refundOnes;
 			}
 
+
 			//Calculate quarters
 			int refundQuarters = refundTotal / quarterWorth;
 			if (numQuarters < refundQuarters) {
@@ -440,6 +441,7 @@ public:
 				numQuarters -= refundQuarters;
 				refundTotal -= (refundQuarters * quarterWorth);
 			}
+
 
 			//Calculate Dimes
 			int refundDimes = refundTotal / dimeWorth;
@@ -463,12 +465,14 @@ public:
 			}
 			else {
 				cout << "Nickels: " << refundNickels << endl;
-				numDimes -= refundNickels;
+				numNickels -= refundNickels;
 				refundTotal -= (refundNickels * nickelWorth);
+				
 			}
 
 			//Make sure that full change amount was processed, otherwise send to front desk
-			if (refundTotal == 0) {
+			//Don't use 0 as comparison to compensate for floating point arithmetic
+			if (refundTotal <= 0.001) {
 				amountDeposited = 0;
 				cout << "Thank you for the transaction. Have a nice day" << endl;
 			}
